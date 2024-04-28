@@ -66,10 +66,26 @@
 };
 
 void showLoadScreen() {
-  // Clear the bugger
-  display.clearDisplay();
   display.drawBitmap(0,0, faketendo_bitmap, 128, 64, WHITE);
   // display.drawRect(0, 0, 20, 20, WHITE);
   display.display();
   delay(2000);
+}
+
+void initializeOledAndShowStartupScreen(){
+  // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3D)) { // Address 0x3D for 128x64
+    Serial.println(F("SSD1306 allocation failed"));
+    for (;;); // Don't proceed, loop forever
+  }
+
+  // Clear the buffer
+  display.clearDisplay();
+
+  display.setTextSize(0.5);
+  display.setTextColor(WHITE, BLACK);
+  display.setCursor(0, 0);
+  // display.println("Screen initialized!");
+
+  showLoadScreen();
 }
