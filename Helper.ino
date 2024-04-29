@@ -44,5 +44,4 @@ void drawStatus(int round, int health) {
   display.print(round);
   display.print(" | Health: ");
   display.println(health);
-
 }

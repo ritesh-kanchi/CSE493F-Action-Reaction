@@ -1,37 +1,53 @@
 bool showedInstructions = false;
 
+bool startedMG1 = false;
+bool startedMG2 = false;
+bool startedMG3 = false;
+
 void miniGamePlayLoop() {
-  if(!showedInstructions) {
+  if (!showedInstructions) {
     gameInstructions();
     showedInstructions = true;
   }
 
   display.setTextSize(1);
 
-  if(_miniGameState == GAME_ONE) {
-   if(mg1_round <= 3 && mg1_health > 0) {
-    miniGameOne();
-   } else if (mg1_health <= 0) {
-    gameOver(0);
-   } else {
-    winGame(0, mg1_health);
-   }
+  if (_miniGameState == GAME_ONE) {
+    if (mg1_round <= 3 && mg1_health > 0) {
+      if (!startedMG1) {
+        delay(500);
+        startedMG1 = true;
+      }
+      miniGameOne();
+    } else if (mg1_health <= 0) {
+      gameOver(0);
+    } else {
+      winGame(0, mg1_health);
+    }
   } else if (_miniGameState == GAME_TWO) {
-    if(mg2_round <= 3 && mg2_health > 0) {
-    miniGameTwo();
-   } else if (mg2_health <= 0) {
-    gameOver(1);
-   } else {
-    winGame(1, mg2_health);
-   }
+    if (mg2_round <= 3 && mg2_health > 0) {
+      if (!startedMG2) {
+        delay(500);
+        startedMG2 = true;
+      }
+      miniGameTwo();
+    } else if (mg2_health <= 0) {
+      gameOver(1);
+    } else {
+      winGame(1, mg2_health);
+    }
   } else if (_miniGameState == GAME_THREE) {
-    if(mg2_round <= 3 && mg3_health > 0) {
-    miniGameThree();
-   } else if (mg3_health <= 0) {
-    gameOver(2);
-   } else {
-    winGame(2, mg3_health);
-   }
+    if (mg2_round <= 3 && mg3_health > 0) {
+      if (!startedMG3) {
+        delay(500);
+        startedMG3 = true;
+      }
+      miniGameThree();
+    } else if (mg3_health <= 0) {
+      gameOver(2);
+    } else {
+      winGame(2, mg3_health);
+    }
   }
 }
 
@@ -65,4 +81,7 @@ void resetMiniGames() {
   mg1_reset();
   mg2_reset();
   mg3_reset();
+  startedMG3 = false;
+  startedMG2 = false;
+  startedMG1 = false;
 }

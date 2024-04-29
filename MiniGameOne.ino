@@ -23,16 +23,16 @@ void miniGameOne() {
   mg1_xBall += mg1_xSpeed;
   mg1_yBall += mg1_ySpeed;
 
-  if(mg1_xBall - mg1_ballRadius <= randomFieldX + mg1_fieldSize && mg1_xBall + mg1_ballRadius >= randomFieldX && mg1_yBall - mg1_ballRadius <= randomFieldY + mg1_fieldSize && mg1_yBall + mg1_ballRadius >= randomFieldY && mg1_buttonPressed) {
-    mg1_buttonPressed = false; // Reset button state
+  if (mg1_xBall - mg1_ballRadius <= randomFieldX + mg1_fieldSize && mg1_xBall + mg1_ballRadius >= randomFieldX && mg1_yBall - mg1_ballRadius <= randomFieldY + mg1_fieldSize && mg1_yBall + mg1_ballRadius >= randomFieldY && mg1_buttonPressed) {
+    mg1_buttonPressed = false;  // Reset button state
     delay(1000);
 
-    mg1_round++; // Increase round number if ball is inside the field and button is pressed
+    mg1_round++;  // Increase round number if ball is inside the field and button is pressed
 
-    if(mg1_round <= 3) {
+    if (mg1_round <= 3) {
       randomFieldX = random(20, display.width() - mg1_fieldSize);
       randomFieldY = random(10, display.height() - mg1_fieldSize);
-      
+
       mg1_xBall = centerHor;
       mg1_yBall = centerVer;
 
@@ -45,11 +45,11 @@ void miniGameOne() {
     mg1_health--;
   }
 
-  if(mg1_xBall - mg1_ballRadius <= 0 || mg1_xBall + mg1_ballRadius >= display.width()) {
+  if (mg1_xBall - mg1_ballRadius <= 0 || mg1_xBall + mg1_ballRadius >= display.width()) {
     mg1_xSpeed *= -1;
   }
 
-  if(mg1_yBall - mg1_ballRadius <= 0 || mg1_yBall + mg1_ballRadius >= display.height()) {
+  if (mg1_yBall - mg1_ballRadius <= 0 || mg1_yBall + mg1_ballRadius >= display.height()) {
     mg1_ySpeed *= -1;
   }
 
@@ -57,27 +57,27 @@ void miniGameOne() {
 
   display.drawRoundRect(randomFieldX, randomFieldY, mg1_fieldSize, mg1_fieldSize, 4, WHITE);
   display.display();
-  
+
 
   int buttonVal = digitalRead(BUTTON_PIN);
   if (buttonVal == LOW) {
-    mg1_buttonPressed = true; // Set button state to pressed
+    mg1_buttonPressed = true;  // Set button state to pressed
   }
 }
 
 void mg1_reset() {
- mg1_xBall = centerHor;
- mg1_yBall = centerVer;
- mg1_xSpeed = 2;
- mg1_ySpeed = 2;
+  mg1_xBall = centerHor;
+  mg1_yBall = centerVer;
+  mg1_xSpeed = 2;
+  mg1_ySpeed = 2;
 
- mg1_round = 1;
+  mg1_round = 1;
 
- mg1_ballRadius = 4;
- mg1_fieldSize = 32;
+  mg1_ballRadius = 4;
+  mg1_fieldSize = 32;
 
- randomFieldX = random(20, display.width() - mg1_fieldSize);
- randomFieldY = random(10, display.height() - mg1_fieldSize);
+  randomFieldX = random(20, display.width() - mg1_fieldSize);
+  randomFieldY = random(10, display.height() - mg1_fieldSize);
 
- mg1_buttonPressed = false;
+  mg1_buttonPressed = false;
 }

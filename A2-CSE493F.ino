@@ -6,11 +6,11 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+#define SCREEN_WIDTH 128  // OLED display width, in pixels
+#define SCREEN_HEIGHT 64  // OLED display height, in pixels
 
-#define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
-#define SCREEN_ADDRESS 0x3D ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
+#define OLED_RESET -1        // Reset pin # (or -1 if sharing Arduino reset pin)
+#define SCREEN_ADDRESS 0x3D  ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 const int POT_INPUT_PIN = A0;
@@ -60,12 +60,12 @@ bool gameSelected = false;
 
 const int DELAY_LOOP_MS = 5;
 
-const char* GAMES[] = {"BallCatch", "Spotlight", "Laser Cat"};
-const char* GAME_INSTRUCTIONS[] = {"Press the BUTTON\n  to catch the ball.","Use the JOYSTICK & BUTTON to the find the thief.","Use the SPINNER & BUTTON\nget the lights!"};
-const char* GAME_LOSING[] = {"You couldn't even catch it.","They got away. Happy?","You made the cat sick :("};
+const char* GAMES[] = { "BallCatch", "Spotlight", "Laser Cat" };
+const char* GAME_INSTRUCTIONS[] = { "Press the BUTTON\n  to catch the ball.", "Use the JOYSTICK & BUTTON to the find the thief.", "Use the SPINNER & BUTTON\nget the lights!" };
+const char* GAME_LOSING[] = { "You couldn't even catch it.", "They got away. Happy?", "You made the cat sick :(" };
 
-const int centerHor = display.width()/2;
-const int centerVer = display.height()/2;
+const int centerHor = display.width() / 2;
+const int centerVer = display.height() / 2;
 
 void setup() {
   Serial.begin(9600);
@@ -86,15 +86,15 @@ void setup() {
 void loop() {
   display.clearDisplay();
 
-  if(digitalRead(JOYSTICK_BUTTON_PIN) == LOW) {
+  if (digitalRead(JOYSTICK_BUTTON_PIN) == LOW) {
     reset();
   }
 
-  if(_gameState == NEW_GAME) {
+  if (_gameState == NEW_GAME) {
     nonGamePlayLoop();
   } else if (_gameState == PLAYING && _miniGameState == NO_GAME) {
     gameSelectionLoop();
-  } else if(_miniGameState != NO_GAME) {
+  } else if (_miniGameState != NO_GAME) {
     miniGamePlayLoop();
   }
 
