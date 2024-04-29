@@ -39,42 +39,125 @@ const unsigned char cat_right_bitmap [] PROGMEM = {
 	0x60, 0x6c, 0x0c, 0x00
 };
 
-const unsigned char* cat_bitmaps[4] = {
-	cat_down_bitmap,
+const unsigned char* cat_bitmaps[5] = {
   cat_right_bitmap,
-  cat_up_bitmap,
+  cat_down_bitmap,
   cat_left_bitmap,
+   cat_up_bitmap,
+   cat_right_bitmap,
 };
 
 int mg3_round = 1;
 int mg3_health = 3;
 
-bool mg3_buttonPressed = false;
+int mg3_buttonPressed = 1;
+int mg3_lastButtonPressed = 1;
 
 int cat_direction = 0;
 
+// red, green, yellow, blue
+int mg3_lights[4] = {RED_LED_PIN, GREEN_LED_PIN, YELLOW_LED_PIN, BLUE_LED_PIN};
+
+bool mg3_lights_caught[4] = {false,false,false,false};
+bool mg3_lights_on[4] = {true,true,true,true};
+
+int mg3_lights_timer_max[4] = {1000,1000,1000,1000};
+int mg3_lights_timer[4] = {0,0,0,0};
+
+int currentAimedColor = 0;
+
 void miniGameThree() {
-    display.clearDisplay();
+  display.clearDisplay();
+  drawStatus(mg3_round, mg3_health);
 
   // Read potentiometer value to determine rotation angle
   int potValue = analogRead(POT_INPUT_PIN);
 
-  Serial.println(potValue);
-
-  if(potValue < 250) {
+  if(potValue < 200) {
     cat_direction = 0;
-  } else if (potValue < 503) {
+  } else if (potValue < 400) {
     cat_direction = 1;
-  } else if (potValue < 750) {
+  } else if (potValue < 600) {
     cat_direction = 2;
-  } else {
+  } else if(potValue < 800) {
     cat_direction = 3;
+  } else {
+    cat_direction = 4;
   }
 
+  if (potValue < 250) {
+    currentAimedColor = 0;
+  } else if (potValue < 500) {
+    currentAimedColor = 3;
+  } else if (potValue < 750) {
+   currentAimedColor = 2;
+  } else if (potValue < 1000) {
+    currentAimedColor = 1;
+  } else {
+    currentAimedColor = 0;
+  }
+
+  Serial.print("Current Color Aimed: ");
+  Serial.println(currentAimedColor);
+
   // Draw rotated cat sprite
-  display.drawBitmap(centerHor- 27, centerVer-25, cat_bitmaps[cat_direction],27, 25, WHITE);
+  display.drawBitmap(centerHor- 27/2, centerVer-25/2, cat_bitmaps[cat_direction],27, 25, WHITE);
+
+  // Map potentiometer value to angle (0 to 360 degrees)
+  int angle = map(potValue, 0, 1023, 0, 360);
+  
+  // Calculate circle center
+  int centerX = SCREEN_WIDTH / 2;
+  int centerY = SCREEN_HEIGHT / 2;
+  
+  // Draw circle
+  int circleRadius = 14;
+  // display.drawCircle(centerX, centerY, circleRadius, WHITE);
+  
+  // Calculate endpoint of the line sticking out from the circle based on angle
+  int lineLength = 30;
+  int lineX = centerX + cos(radians(angle)) * circleRadius;
+  int lineY = centerY + sin(radians(angle)) * circleRadius;
+  int lineEndX = lineX + cos(radians(angle)) * lineLength;
+  int lineEndY = lineY + sin(radians(angle)) * lineLength;
+
+  display.drawLine(lineX, lineY, lineEndX, lineEndY, WHITE);
+
+  if(mg3_buttonPressed && mg3_lights_on[currentAimedColor] && !mg3_lights_caught[currentAimedColor]) {
+    mg3_lights_caught[currentAimedColor] = true;
+    mg3_buttonPressed = false;
+    delay(200);
+    // Serial.println("ENTERED!");
+    digitalWrite(mg3_lights[currentAimedColor], 0);
+
+
+    if(mg3_all_lights_caught()) {
+      mg3_round++;
+
+      
+
+      if(mg3_round <= 3 && mg3_all_lights_caught()) {
+        mg3_manage_lights();
+        mg3_reset_lights_caught();
+        mg3_randomize_lights();
+      }
+    }
+  } else if (mg3_buttonPressed && !mg3_lights_on[currentAimedColor]) {
+    mg3_buttonPressed = false;
+    mg3_health--;
+  }
+
+  // int buttonVal = ;
+  if(digitalRead(BUTTON_PIN) == LOW) {
+    mg3_buttonPressed = true;
+  }
+
+  mg3_add_time();
+  mg3_manage_lights();
 
   display.display();
+
+  lightData();
 
   delay(10); // Adjust the delay as needed
 }
@@ -84,4 +167,71 @@ void mg3_reset() {
  mg3_health = 3;
  mg3_buttonPressed = false;
  cat_direction = 0;
+
+  mg3_reset_lights_caught();
 }
+
+void mg3_manage_lights() {
+  for (int i = 0; i < 4; ++i) {
+      if(!mg3_lights_caught[i] && mg3_lights_on[i]) {
+        digitalWrite(mg3_lights[i], 1);
+      } else {
+        digitalWrite(mg3_lights[i], 0);
+      }
+  }
+}
+
+void mg3_reset_lights_caught() {
+  for (int i = 0; i < 4; ++i) {
+      mg3_lights_caught[i] = false;
+      mg3_lights_on[i] = false;
+  }
+}
+
+void mg3_randomize_lights() {
+   for (int i = 0; i < 4; ++i) {
+    mg3_lights_timer[i] = random(0, 200);
+    mg3_lights_timer_max[i] = random(200, 1000 - ((mg3_round - 1) * 100));
+  }
+}
+
+void mg3_add_time() {
+  for (int i = 0; i < 4; ++i) {
+      mg3_lights_timer[i] += 10;
+      if(mg3_lights_timer[i] > mg3_lights_timer_max[i]) {
+        mg3_lights_on[i] = !mg3_lights_on[i];
+        mg3_lights_timer[i] = random(0, 200);
+      }
+  }
+}
+
+bool mg3_all_lights_caught() {
+  for (int i = 0; i < 4; ++i) {
+      if(mg3_lights_caught[i] == false) {
+        return false;
+      }
+  }
+
+  return true;
+}
+
+void lightData() {
+  for (int i = 0; i < 4; ++i) {
+   if(i == 0) {
+    Serial.print("RED");
+   } else if (i == 1) {
+    Serial.print("GREEN");
+   } else if (i == 2) {
+    Serial.print("YELLOW");
+   } else {
+    Serial.print("BLUE");
+   }
+     Serial.print(" | Caught? ");
+     Serial.print(mg3_lights_caught[i]);
+     Serial.print(" | On? ");
+     Serial.println(mg3_lights_on[i]);
+    //  Serial.print(" | Timer? ");
+    //  Serial.println(mg3_lights_timer[i]);
+  }
+}
+

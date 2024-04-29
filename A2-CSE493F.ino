@@ -13,25 +13,29 @@
 #define SCREEN_ADDRESS 0x3D ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-const int POT_INPUT_PIN = A1;
+const int POT_INPUT_PIN = A0;
 
-const int JOYSTICK_UPDOWN_PIN = A4;
-const int JOYSTICK_LEFTRIGHT_PIN = A5;
-const int JOYSTICK_BUTTON_PIN = 7;
+const int JOYSTICK_UPDOWN_PIN = A1;
+const int JOYSTICK_LEFTRIGHT_PIN = A2;
+const int JOYSTICK_BUTTON_PIN = 8;
 const int MAX_ANALOG_VAL = 1023;
 const enum JoystickYDirection JOYSTICK_Y_DIR = RIGHT;
 
-const int BUTTON_PIN = 4;
+const int BUTTON_PIN = 13;
+
+const int RED_LED_PIN = 5;
+const int BLUE_LED_PIN = 4;
+const int GREEN_LED_PIN = 6;
+const int YELLOW_LED_PIN = 7;
 
 ParallaxJoystick _analogJoystick(JOYSTICK_UPDOWN_PIN, JOYSTICK_LEFTRIGHT_PIN, MAX_ANALOG_VAL, JOYSTICK_Y_DIR);
 
-const int TONE_OUTPUT_PIN = 8;
-// const int VIBROMOTOR_OUTPUT_PIN = 9;
+const int TONE_OUTPUT_PIN = 9;
+const int VIBROMOTOR_OUTPUT_PIN = 10;
 
 enum GameState {
   NEW_GAME,
-  PLAYING,
-  GAME_OVER
+  PLAYING
 };
 
 enum JoystickState {
@@ -56,8 +60,8 @@ bool gameSelected = false;
 
 const int DELAY_LOOP_MS = 5;
 
-const char* GAMES[] = {"BallCatch", "Spotlight", "Cat Munch"};
-const char* GAME_INSTRUCTIONS[] = {"Press the BUTTON\n  to catch the ball.","Use the JOYSTICK & BUTTON to the find the thief.","Use the SPINNER & BUTTON to eat the balls!"};
+const char* GAMES[] = {"BallCatch", "Spotlight", "Laser Cat"};
+const char* GAME_INSTRUCTIONS[] = {"Press the BUTTON\n  to catch the ball.","Use the JOYSTICK & BUTTON to the find the thief.","Use the SPINNER & BUTTON\nget the lights!"};
 const char* GAME_LOSING[] = {"You couldn't even catch it.","They got away. Happy?","You made the cat sick :("};
 
 const int centerHor = display.width()/2;
@@ -70,6 +74,11 @@ void setup() {
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(JOYSTICK_BUTTON_PIN, INPUT_PULLUP);
 
+  pinMode(RED_LED_PIN, OUTPUT);
+  pinMode(BLUE_LED_PIN, OUTPUT);
+  pinMode(GREEN_LED_PIN, OUTPUT);
+  pinMode(YELLOW_LED_PIN, OUTPUT);
+
   initializeOledAndShowStartupScreen();
   randomSeed(analogRead(A0));
 }
@@ -81,7 +90,7 @@ void loop() {
     reset();
   }
 
-  if(_gameState == NEW_GAME || _gameState == GAME_OVER) {
+  if(_gameState == NEW_GAME) {
     nonGamePlayLoop();
   } else if (_gameState == PLAYING && _miniGameState == NO_GAME) {
     gameSelectionLoop();

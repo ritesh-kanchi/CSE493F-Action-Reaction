@@ -44,7 +44,7 @@ void gameInstructions() {
   uint16_t w1, h1;
 
   display.getTextBounds(GAMES[miniGameIndex], 0, 0, &x1, &y1, &w1, &h1);
-  display.setCursor((centerHor - w1 / 2) - 22, 20);
+  display.setCursor((centerHor - w1 / 2) - 24, 20);
   display.setTextSize(2);
   display.print(GAMES[miniGameIndex]);
 
@@ -52,7 +52,7 @@ void gameInstructions() {
   uint16_t w2, h2;
 
   display.getTextBounds(GAME_INSTRUCTIONS[miniGameIndex], 0, 0, &x2, &y2, &w2, &h2);
-  display.setCursor((centerHor - w2 / 2) + 14, 42);
+  display.setCursor((centerHor - w2 / 2) + 14, 40);
   display.setTextSize(1);
   display.print(GAME_INSTRUCTIONS[miniGameIndex]);
 

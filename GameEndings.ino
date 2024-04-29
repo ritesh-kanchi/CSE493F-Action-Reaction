@@ -18,7 +18,6 @@ void winGame(int gameIndex, int hearts) {
 
   if(end_buttonPressed) {
     end_buttonPressed = false;
-    Serial.println("GOING BACK!");
     backToSelection();
   }
 
@@ -47,7 +46,6 @@ void gameOver(int gameIndex) {
    
 
   if(end_buttonPressed) {
-    Serial.println("GOING BACK!");
     end_buttonPressed = false;
     backToSelection();
   }

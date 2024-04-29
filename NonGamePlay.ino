@@ -101,7 +101,5 @@ void nonGamePlayLoop() {
 
     // delay(500);
 
-  } else if (_gameState == GAME_OVER) {
-    Serial.println("Game over!");
   }
 }

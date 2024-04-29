@@ -26,12 +26,10 @@ int mg2_health = 3;
 bool mg2_buttonPressed = false;
 
 int mg2_timer_max = 500;
-
+int mg2_timer = 0;
 
 int randomThiefX = random(0, display.width() - thief_bitmap_sizes[mg2_round - 1][0]);
 int randomThiefY = random(10, display.height() - thief_bitmap_sizes[mg2_round - 1][1]);
-
-int mg2_timer = 0;
 
 void miniGameTwo() {
  display.clearDisplay();
@@ -90,10 +88,6 @@ void miniGameTwo() {
   randomThiefY = random(10, display.height() - thief_bitmap_sizes[mg2_round - 1][1]);
   mg2_timer = 0;
  }
-
- 
-
-
   mg2_timer += 10;
 
  delay(10);
@@ -103,6 +97,8 @@ void mg2_reset() {
  mg2_round = 1;
  mg2_health = 3;
  mg2_buttonPressed = false;
+ mg2_timer_max = 500;
+ mg2_timer = 0;
 }
 
 void fillEllipsis(int x0, int y0, int a, int b) {
