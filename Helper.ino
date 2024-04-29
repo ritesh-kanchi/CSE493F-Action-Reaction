@@ -35,3 +35,14 @@ void drawBottomTitle(char* STR) {
   display.setCursor(centerHor - w / 2, 52);
   display.print(STR);
 }
+
+void drawStatus(int round, int health) {
+  display.setCursor(0, 0);
+  display.setTextColor(WHITE);
+  display.setTextSize(1);
+  display.print("Round:");
+  display.print(round);
+  display.print(" | Health: ");
+  display.println(health);
+
+}

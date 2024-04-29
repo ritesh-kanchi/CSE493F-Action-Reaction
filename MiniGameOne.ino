@@ -17,15 +17,7 @@ bool mg1_buttonPressed = false;
 
 void miniGameOne() {
   display.clearDisplay();
-
-  display.setCursor(0, 0);
-  display.setTextColor(WHITE);
-  display.setTextSize(1);
-  display.print("Round:");
-  display.print(mg1_round);
-  display.print(" | Health: ");
-  display.println(mg1_health);
-
+  drawStatus(mg1_round, mg1_health);
 
   // drawTitle(GAMES[0]);
   mg1_xBall += mg1_xSpeed;

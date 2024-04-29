@@ -18,21 +18,25 @@ const unsigned char* thief_bitmaps[3] = {
 	thief3_bitmap
 };
 
+const int thief_bitmap_sizes[3][2] = {{11,16},{5,9},{3,6}};
+
 int mg2_round = 1;
 int mg2_health = 3;
 
 bool mg2_buttonPressed = false;
 
 
-int randomThiefX = random(0, display.width() - mg1_fieldSize);
-int randomThiefY = random(10, display.height() - mg1_fieldSize);
+int randomThiefX = random(0, display.width() - thief_bitmap_sizes[mg2_round - 1][0]);
+int randomThiefY = random(10, display.height() - thief_bitmap_sizes[mg2_round - 1][1]);
 
 void miniGameTwo() {
  display.clearDisplay();
 
-  int spotlightW = 20; // Constant width
-  int spotlightMaxH = 15; // Maximum height
-  int spotlightMinH = 7; // Minimum height near the edges
+  drawStatus(mg2_round, mg2_health);
+
+  int spotlightW = 16; // Constant width
+  int spotlightMaxH = 12; // Maximum height
+  int spotlightMinH = 6; // Minimum height near the edges
 
   // Map joystick position to spotlight position
   int xPos = map(analogRead(JOYSTICK_LEFTRIGHT_PIN), 0, 1023, spotlightW, display.width() - spotlightW);
@@ -44,13 +48,9 @@ void miniGameTwo() {
 
   fillEllipsis(xPos, yPos, spotlightW, spotlightH);
 
- if(mg2_buttonPressed) {
- 
- } else if(mg2_buttonPressed) {
+  display.drawBitmap(randomThiefX, randomThiefY, thief_bitmaps[mg2_round - 1], thief_bitmap_sizes[mg2_round - 1][0],  thief_bitmap_sizes[mg2_round - 1][1], BLACK);
 
- }
-
- display.display();
+  display.display();
 
   int buttonVal = digitalRead(BUTTON_PIN);
   if (buttonVal == LOW) {
