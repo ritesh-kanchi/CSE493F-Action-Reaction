@@ -56,8 +56,8 @@ bool gameSelected = false;
 
 const int DELAY_LOOP_MS = 5;
 
-const char* GAMES[] = {"Ball\nCatch", "Game 2", "Game 3"};
-const char* GAME_INSTRUCTIONS[] = {"Press the BUTTON\n  to catch the ball.","Joystick","Spinner"};
+const char* GAMES[] = {"BallCatch", "Spotlight", "Game 3"};
+const char* GAME_INSTRUCTIONS[] = {"Press the BUTTON\n  to catch the ball.","Use the JOYSTICK and BUTTON\nto the find the thief.","Spinner"};
 
 const int centerHor = display.width()/2;
 const int centerVer = display.height()/2;

@@ -9,7 +9,15 @@ void miniGamePlayLoop() {
   display.setTextSize(1);
 
   if(_miniGameState == GAME_ONE) {
+   if(mg1_round <= 3 && mg1_health > 0) {
     miniGameOne();
+   } else if (mg1_health <= 0) {
+    // game over
+    Serial.println("GAME OVER!");
+   } else {
+    // great job
+    Serial.println("GREAT JOB!");
+   }
   } else if (_miniGameState == GAME_TWO) {
     miniGameTwo();
   } else if (_miniGameState == GAME_THREE) {
@@ -41,4 +49,10 @@ void gameInstructions() {
   display.display();
 
   delay(5000);
+}
+
+void resetMiniGames() {
+  mg1_reset();
+  mg2_reset();
+  mg3_reset();
 }

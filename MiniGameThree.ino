@@ -1,5 +1,7 @@
 void miniGameThree() {
-  display.clearDisplay();
-  drawTitle(GAMES[2]);  
-  display.display();
+  drawTitle(GAMES[1]);
+}
+
+void mg3_reset() {
+
 }

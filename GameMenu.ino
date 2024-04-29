@@ -20,7 +20,7 @@ void gameSelectionLoop() {
       selectedGame = (selectedGame - 1 + 3) % 3; // Ensuring positive modulo
     }
     lastjoystickState = _joystickState; // Update last joystick state
-    Serial.println(selectedGame);
+    // Serial.println(selectedGame);
   }
 
   int buttonVal = digitalRead(BUTTON_PIN);

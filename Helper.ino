@@ -13,4 +13,16 @@ void reset() {
   _miniGameState = NO_GAME;
   miniGameIndex = -1;
   gameSelected = false;
+
+  resetMiniGames();
+}
+
+void backToSelection() {
+  _gameState = PLAYING;
+  _joystickState = NO_MOVEMENT;
+  _miniGameState = NO_GAME;
+  miniGameIndex = -1;
+  gameSelected = false;
+
+  resetMiniGames();
 }

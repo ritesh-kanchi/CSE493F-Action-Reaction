@@ -76,7 +76,7 @@ void nonGamePlayLoop() {
   int16_t x1, y1;
   uint16_t w, h;
 
-  Serial.println(buttonVal);
+  // Serial.println(buttonVal);
 
   if(_gameState == NEW_GAME) {
     display.clearDisplay();
@@ -86,12 +86,12 @@ void nonGamePlayLoop() {
     display.getTextBounds(STR_PRESS_BUTTON_TO_PLAY, 0, 0, &x1, &y1, &w, &h);
     display.setCursor(display.width() / 2 - w / 2, 52);
 
-    if(showStartButton) {
+    // if(showStartButton) {
       display.print(STR_PRESS_BUTTON_TO_PLAY);
-      showStartButton = false;
-    } else {
-      showStartButton = true;
-    }
+    //   showStartButton = false;
+    // } else {
+    //   showStartButton = true;
+    // }
 
     display.display();
 
@@ -99,7 +99,7 @@ void nonGamePlayLoop() {
       _gameState = PLAYING;
     }
 
-    delay(300);
+    // delay(500);
 
   } else if (_gameState == GAME_OVER) {
     Serial.println("Game over!");
