@@ -1,7 +1,7 @@
 void gameSelectionLoop() {
   static int selectedGame = 0;
   static int lastjoystickState = NO_MOVEMENT; // Store the last joystick state
-  int x_dir = analogRead(JOYSTICK_LEFTRIGHT_PIN);
+  int x_dir = analogRead(JOYSTICK_UPDOWN_PIN);
   int _joystickState = NO_MOVEMENT; // Initialize joystick state
 
   int16_t x1, y1;
@@ -42,7 +42,7 @@ void gameSelectionLoop() {
   drawTitle("Choose a game!");
 
   for(int i = 0; i < 3; i++) {
-    drawGameRect(i, selectedGame == i, (i*40)+(i*2), GAMES[i]);
+    drawGameRect(i, selectedGame == i, (i*15)+(i*1) + 16, GAMES[i]);
   }
 
   display.display();
@@ -52,27 +52,27 @@ void gameSelectionLoop() {
   delay(50);
 }
 
-void drawGameRect(int num, bool selected, int x, char* STR_GAME_NAME) {
+void drawGameRect(int num, bool selected, int y, char* STR_GAME_NAME) {
 
   int16_t x1, y1;
   uint16_t w, h;
 
-  int width = 40;
-  int height = 48;
+  int width = display.width();
+  int height = 15;
 
-  int y = 16;
+  int x = 0;
 
   if(selected) {
     display.fillRect(x, y, width, height, WHITE);
     display.setTextColor(BLACK);
     display.getTextBounds(STR_GAME_NAME, 0, 0, &x1, &y1, &w, &h);
-    display.setCursor(x+3, 36);
+    display.setCursor(centerHor - w / 2, y+3);
     display.print(STR_GAME_NAME);
   } else {
     display.drawRect(x, y, width, height, WHITE);
     display.setTextColor(WHITE);
     display.getTextBounds(STR_GAME_NAME, 0, 0, &x1, &y1, &w, &h);
-    display.setCursor(x+3, 36);
+    display.setCursor(centerHor - w / 2, y+3);
     display.print(STR_GAME_NAME);
   }
 }

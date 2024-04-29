@@ -26,3 +26,12 @@ void backToSelection() {
 
   resetMiniGames();
 }
+
+void drawBottomTitle(char* STR) {
+  int16_t x1, y1;
+  uint16_t w, h;
+
+  display.getTextBounds(STR, 0, 0, &x1, &y1, &w, &h);
+  display.setCursor(centerHor - w / 2, 52);
+  display.print(STR);
+}

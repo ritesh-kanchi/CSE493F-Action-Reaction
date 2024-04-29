@@ -13,10 +13,10 @@ void miniGamePlayLoop() {
     miniGameOne();
    } else if (mg1_health <= 0) {
     // game over
-    Serial.println("GAME OVER!");
+    drawTitle("GAME OVER!");
    } else {
     // great job
-    Serial.println("GREAT JOB!");
+    drawTitle("GREAT JOB!");
    }
   } else if (_miniGameState == GAME_TWO) {
     miniGameTwo();
@@ -34,7 +34,7 @@ void gameInstructions() {
   uint16_t w1, h1;
 
   display.getTextBounds(GAMES[miniGameIndex], 0, 0, &x1, &y1, &w1, &h1);
-  display.setCursor((centerHor - w1 / 2) - 16, 20);
+  display.setCursor((centerHor - w1 / 2) - 22, 20);
   display.setTextSize(2);
   display.print(GAMES[miniGameIndex]);
 
