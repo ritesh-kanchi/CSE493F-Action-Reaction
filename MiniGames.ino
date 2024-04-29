@@ -12,16 +12,26 @@ void miniGamePlayLoop() {
    if(mg1_round <= 3 && mg1_health > 0) {
     miniGameOne();
    } else if (mg1_health <= 0) {
-    // game over
-    drawTitle("GAME OVER!");
+    gameOver(0);
    } else {
-    // great job
-    drawTitle("GREAT JOB!");
+    winGame(0, mg1_health);
    }
   } else if (_miniGameState == GAME_TWO) {
+    if(mg2_round <= 3 && mg2_health > 0) {
     miniGameTwo();
+   } else if (mg2_health <= 0) {
+    gameOver(1);
+   } else {
+    winGame(1, mg2_health);
+   }
   } else if (_miniGameState == GAME_THREE) {
+    if(mg2_round <= 3 && mg3_health > 0) {
     miniGameThree();
+   } else if (mg3_health <= 0) {
+    gameOver(2);
+   } else {
+    winGame(2, mg3_health);
+   }
   }
 }
 

@@ -55,7 +55,7 @@ void miniGameOne() {
 
   display.fillCircle(mg1_xBall, mg1_yBall, mg1_ballRadius, WHITE);
 
-  display.drawRect(randomFieldX, randomFieldY, mg1_fieldSize, mg1_fieldSize, WHITE);
+  display.drawRoundRect(randomFieldX, randomFieldY, mg1_fieldSize, mg1_fieldSize, 4, WHITE);
   display.display();
   
 

@@ -1,4 +1,4 @@
-#include <Shape.hpp>;
+// #include <Shape.hpp>;
 #include <ParallaxJoystick.hpp>;
 
 #include <SPI.h>
@@ -56,8 +56,9 @@ bool gameSelected = false;
 
 const int DELAY_LOOP_MS = 5;
 
-const char* GAMES[] = {"BallCatch", "Spotlight", "Game 3"};
-const char* GAME_INSTRUCTIONS[] = {"Press the BUTTON\n  to catch the ball.","Use the JOYSTICK & BUTTON to the find the thief.","Spinner"};
+const char* GAMES[] = {"BallCatch", "Spotlight", "Cat Munch"};
+const char* GAME_INSTRUCTIONS[] = {"Press the BUTTON\n  to catch the ball.","Use the JOYSTICK & BUTTON to the find the thief.","Use the SPINNER & BUTTON to eat the balls!"};
+const char* GAME_LOSING[] = {"You couldn't even catch it.","They got away. Happy?","You made the cat sick :("};
 
 const int centerHor = display.width()/2;
 const int centerVer = display.height()/2;

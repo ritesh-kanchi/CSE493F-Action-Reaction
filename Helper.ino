@@ -37,7 +37,7 @@ void drawBottomTitle(char* STR) {
 }
 
 void drawStatus(int round, int health) {
-  display.setCursor(0, 0);
+  display.setCursor(10, 0);
   display.setTextColor(WHITE);
   display.setTextSize(1);
   display.print("Round:");
