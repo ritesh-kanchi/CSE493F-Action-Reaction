@@ -47,7 +47,7 @@ enum MiniGameState {
   NO_GAME
 };
 
-GameState _gameState = PLAYING;
+GameState _gameState = NEW_GAME;
 JoystickState _joystickState = NO_MOVEMENT;
 MiniGameState _miniGameState = NO_GAME;
 int miniGameIndex = -1;
@@ -56,8 +56,8 @@ bool gameSelected = false;
 
 const int DELAY_LOOP_MS = 5;
 
-const char* GAMES[] = {"Game 1", "Game 2", "Game 3"};
-const char* GAME_INSTRUCTIONS[] = {"Press the BUTTON\n   to the catch ball.","Joystick","Spinner"};
+const char* GAMES[] = {"Ball\nCatch", "Game 2", "Game 3"};
+const char* GAME_INSTRUCTIONS[] = {"Press the BUTTON\n  to catch the ball.","Joystick","Spinner"};
 
 const int centerHor = display.width()/2;
 const int centerVer = display.height()/2;

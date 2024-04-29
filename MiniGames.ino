@@ -1,21 +1,20 @@
 bool showedInstructions = false;
 
 void miniGamePlayLoop() {
-  // if(!showedInstructions) {
-  //   gameInstructions();
-  //   showedInstructions = true;
-  // }
+  if(!showedInstructions) {
+    gameInstructions();
+    showedInstructions = true;
+  }
 
-  // display.setTextSize(1);
+  display.setTextSize(1);
 
-  // if(_miniGameState == GAME_ONE) {
-  //   miniGameOne();
-  // } else if (_miniGameState == GAME_TWO) {
-  //   miniGameTwo();
-  // } else if (_miniGameState == GAME_THREE) {
-  //   miniGameThree();
-  // }
-  gameInstructions();
+  if(_miniGameState == GAME_ONE) {
+    miniGameOne();
+  } else if (_miniGameState == GAME_TWO) {
+    miniGameTwo();
+  } else if (_miniGameState == GAME_THREE) {
+    miniGameThree();
+  }
 }
 
 void gameInstructions() {
@@ -35,7 +34,7 @@ void gameInstructions() {
   uint16_t w2, h2;
 
   display.getTextBounds(GAME_INSTRUCTIONS[miniGameIndex], 0, 0, &x2, &y2, &w2, &h2);
-  display.setCursor((centerHor - w2 / 2) + 24, 42);
+  display.setCursor((centerHor - w2 / 2) + 14, 42);
   display.setTextSize(1);
   display.print(GAME_INSTRUCTIONS[miniGameIndex]);
 

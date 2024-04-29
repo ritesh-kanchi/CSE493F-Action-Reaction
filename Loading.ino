@@ -82,7 +82,7 @@ void initializeOledAndShowStartupScreen(){
   // Clear the buffer
   display.clearDisplay();
 
-  display.setTextSize(0.5);
+  display.setTextSize(1);
   display.setTextColor(WHITE, BLACK);
   display.setCursor(0, 0);
   // display.println("Screen initialized!");
