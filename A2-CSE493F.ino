@@ -57,12 +57,12 @@ MiniGameState _miniGameState = NO_GAME;
 int miniGameIndex = -1;
 
 bool gameSelected = false;
+bool showedMiniGameInstructions = false;
 
 const int DELAY_LOOP_MS = 5;
 
-const char* GAMES[] = { "BallCatch", "Spotlight", "Laser Cat" };
-const char* GAME_INSTRUCTIONS[] = { "Press the BUTTON\n  to catch the ball.", "Use the JOYSTICK & BUTTON to the find the thief.", "Use the SPINNER & BUTTON\nget the lights!" };
-const char* GAME_LOSING[] = { "You couldn't even catch it.", "They got away. Happy?", "You made the cat sick :(" };
+const char* GAMES[] = { "Ball Trap", "Spotlight", "Laser Cat" };
+const char* GAME_INSTRUCTIONS[] = { "BUTTON to trap the ball!", "JOYSTICK & BUTTON to find thieves.", "SPINNER & BUTTON to catch lights!" };
 
 const int centerHor = display.width() / 2;
 const int centerVer = display.height() / 2;

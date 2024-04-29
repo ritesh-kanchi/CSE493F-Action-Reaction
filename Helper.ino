@@ -13,6 +13,7 @@ void reset() {
   _miniGameState = NO_GAME;
   miniGameIndex = -1;
   gameSelected = false;
+  showedMiniGameInstructions = false;
 
   resetMiniGames();
 }
@@ -23,6 +24,7 @@ void backToSelection() {
   _miniGameState = NO_GAME;
   miniGameIndex = -1;
   gameSelected = false;
+  showedMiniGameInstructions = false;
 
   resetMiniGames();
 }

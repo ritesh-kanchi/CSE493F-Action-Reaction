@@ -50,8 +50,7 @@ const unsigned char* cat_bitmaps[5] = {
 int mg3_round = 1;
 int mg3_health = 3;
 
-int mg3_buttonPressed = 1;
-int mg3_lastButtonPressed = 1;
+int mg3_buttonPressed = false;
 
 int cat_direction = 0;
 
@@ -59,7 +58,7 @@ int cat_direction = 0;
 int mg3_lights[4] = { RED_LED_PIN, GREEN_LED_PIN, YELLOW_LED_PIN, BLUE_LED_PIN };
 
 bool mg3_lights_caught[4] = { false, false, false, false };
-bool mg3_lights_on[4] = { true, true, true, true };
+bool mg3_lights_on[4] = { false, false, false, false };
 
 int mg3_lights_timer_max[4] = { 1000, 1000, 1000, 1000 };
 int mg3_lights_timer[4] = { 0, 0, 0, 0 };
@@ -124,8 +123,6 @@ void miniGameThree() {
   display.drawLine(lineX, lineY, lineEndX, lineEndY, WHITE);
 
   if (mg3_buttonPressed && mg3_lights_on[currentAimedColor] && !mg3_lights_caught[currentAimedColor]) {
-    Serial.println("CAUGHT LIGHT!");
-    lightData();
     mg3_lights_caught[currentAimedColor] = true;
     mg3_buttonPressed = false;
     delay(200);
@@ -133,12 +130,11 @@ void miniGameThree() {
     digitalWrite(mg3_lights[currentAimedColor], 0);
 
 
-    if (mg3_all_lights_caught()) {
+    if (mg3_all_lights_caught() == 4) {
+      delay(1000);
       mg3_round++;
 
-
-
-      if (mg3_round <= 3 && mg3_all_lights_caught()) {
+      if (mg3_round <= 3) {
         mg3_manage_lights();
         mg3_reset_lights_caught();
         mg3_randomize_lights();
@@ -147,11 +143,8 @@ void miniGameThree() {
   } else if (mg3_buttonPressed && !mg3_lights_on[currentAimedColor]) {
     mg3_buttonPressed = false;
     mg3_health--;
-    Serial.println("WRONG CATCH!");
-    lightData();
   }
 
-  // int buttonVal = ;
   if (digitalRead(BUTTON_PIN) == LOW) {
     mg3_buttonPressed = true;
   }
@@ -159,9 +152,13 @@ void miniGameThree() {
   mg3_add_time();
   mg3_manage_lights();
 
+  display.setCursor(16, 52);
+  display.setTextColor(WHITE);
+  display.setTextSize(1);
+  display.print("Lights Caught:");
+  display.println(mg3_all_lights_caught());
+
   display.display();
-
-
 
   delay(10);  // Adjust the delay as needed
 }
@@ -173,6 +170,7 @@ void mg3_reset() {
   cat_direction = 0;
 
   mg3_reset_lights_caught();
+  mg3_reset_light_timers();
 }
 
 void mg3_manage_lights() {
@@ -192,10 +190,17 @@ void mg3_reset_lights_caught() {
   }
 }
 
+void mg3_reset_light_timers() {
+  for (int i = 0; i < 4; ++i) {
+    mg3_lights_timer_max[i] = 1000;
+    mg3_lights_timer[i] = 0;
+  }
+}
+
 void mg3_randomize_lights() {
   for (int i = 0; i < 4; ++i) {
     mg3_lights_timer[i] = random(0, 200);
-    mg3_lights_timer_max[i] = random(200, 1000 - ((mg3_round - 1) * 100));
+    mg3_lights_timer_max[i] = random(200, 1000 - ((mg3_round - 1) * 200));
   }
 }
 
@@ -209,32 +214,13 @@ void mg3_add_time() {
   }
 }
 
-bool mg3_all_lights_caught() {
-  for (int i = 0; i < 4; ++i) {
-    if (mg3_lights_caught[i] == false) {
-      return false;
+int mg3_all_lights_caught() {
+  int count = 0;
+  for (int i = 0; i < 4; i++) {
+    if (mg3_lights_caught[i]) {
+      count++;
     }
   }
 
-  return true;
-}
-
-void lightData() {
-  for (int i = 0; i < 4; ++i) {
-    if (i == 0) {
-      Serial.print("RED");
-    } else if (i == 1) {
-      Serial.print("GREEN");
-    } else if (i == 2) {
-      Serial.print("YELLOW");
-    } else {
-      Serial.print("BLUE");
-    }
-    Serial.print(" | Caught? ");
-    Serial.print(mg3_lights_caught[i]);
-    Serial.print(" | On? ");
-    Serial.println(mg3_lights_on[i]);
-    //  Serial.print(" | Timer? ");
-    //  Serial.println(mg3_lights_timer[i]);
-  }
+  return count;
 }

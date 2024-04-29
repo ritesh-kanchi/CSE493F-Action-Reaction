@@ -1,13 +1,13 @@
-bool showedInstructions = false;
+
 
 bool startedMG1 = false;
 bool startedMG2 = false;
 bool startedMG3 = false;
 
 void miniGamePlayLoop() {
-  if (!showedInstructions) {
+  if (!showedMiniGameInstructions) {
     gameInstructions();
-    showedInstructions = true;
+    showedMiniGameInstructions = true;
   }
 
   display.setTextSize(1);
@@ -37,7 +37,7 @@ void miniGamePlayLoop() {
       winGame(1, mg2_health);
     }
   } else if (_miniGameState == GAME_THREE) {
-    if (mg2_round <= 3 && mg3_health > 0) {
+    if (mg3_round <= 3 && mg3_health > 0) {
       if (!startedMG3) {
         delay(500);
         startedMG3 = true;
@@ -54,7 +54,7 @@ void miniGamePlayLoop() {
 void gameInstructions() {
 
   display.clearDisplay();
-  drawTitle("Now playing:");
+  drawTitle("Now playing...");
 
   int16_t x1, y1;
   uint16_t w1, h1;
@@ -74,7 +74,7 @@ void gameInstructions() {
 
   display.display();
 
-  delay(5000);
+  delay(3000);
 }
 
 void resetMiniGames() {

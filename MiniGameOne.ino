@@ -10,6 +10,9 @@ int mg1_health = 3;
 int mg1_ballRadius = 4;
 int mg1_fieldSize = 32;
 
+int mg1_timer_max = 1000;
+int mg1_timer = 0;
+
 int randomFieldX = random(0, display.width() - mg1_fieldSize);
 int randomFieldY = random(10, display.height() - mg1_fieldSize);
 
@@ -39,6 +42,8 @@ void miniGameOne() {
       mg1_xSpeed *= mg1_round;
       mg1_ySpeed *= mg1_round;
       mg1_fieldSize = mg1_fieldSize - ((mg1_round - 1) * 4);
+
+      mg1_timer_max -= (mg1_round - 1) * 150;
     }
   } else if (mg1_buttonPressed) {
     mg1_buttonPressed = false;
@@ -63,6 +68,15 @@ void miniGameOne() {
   if (buttonVal == LOW) {
     mg1_buttonPressed = true;  // Set button state to pressed
   }
+
+   if (mg1_timer > mg1_timer_max) {
+    randomFieldX = random(20, display.width() - mg1_fieldSize);
+    randomFieldY = random(10, display.height() - mg1_fieldSize);
+    mg1_timer = 0;
+  }
+  mg1_timer += 10;
+
+  delay(10);
 }
 
 void mg1_reset() {
@@ -80,4 +94,7 @@ void mg1_reset() {
   randomFieldY = random(10, display.height() - mg1_fieldSize);
 
   mg1_buttonPressed = false;
+
+  mg1_timer = 0;
+  mg1_timer_max = 1000;
 }

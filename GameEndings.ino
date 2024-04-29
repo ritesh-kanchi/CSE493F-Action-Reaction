@@ -33,13 +33,8 @@ void gameOver(int gameIndex) {
   drawTitle("GAME OVER");
   display.setTextSize(1);
 
-
   int16_t x1, y1;
   uint16_t w1, h1;
-
-  // display.getTextBounds(GAME_LOSING[miniGameIndex], 0, 0, &x1, &y1, &w1, &h1);
-  // display.setCursor((centerHor - w1 / 2) + 26, 24);
-  // display.print(GAME_LOSING[miniGameIndex]);
 
   drawBottomTitle("Press BUTTON for more");
 
