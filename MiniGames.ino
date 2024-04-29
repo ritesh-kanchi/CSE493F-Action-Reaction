@@ -12,42 +12,32 @@ void miniGamePlayLoop() {
 
   display.setTextSize(1);
 
-  if (_miniGameState == GAME_ONE) {
-    if (mg1_round <= 3 && mg1_health > 0) {
-      if (!startedMG1) {
-        delay(500);
-        startedMG1 = true;
-      }
-      miniGameOne();
-    } else if (mg1_health <= 0) {
-      gameOver(0);
-    } else {
-      winGame(0, mg1_health);
+  if (mg1_health <= 0 || mg2_health <= 0 || mg3_health <= 0) {
+    gameOver(miniGameIndex);
+  }
+
+  if ((mg1_round >= 3 && mg1_health > 0) || (mg2_round >= 3 && mg2_health > 0) || (mg3_round >= 3 && mg3_health > 0)) {
+    winGame(miniGameIndex);
+  }
+
+  if (_miniGameState == GAME_ONE && mg1_round <= 3 && mg1_health > 0) {
+    if (!startedMG1) {
+      delay(500);
+      startedMG1 = true;
     }
-  } else if (_miniGameState == GAME_TWO) {
-    if (mg2_round <= 3 && mg2_health > 0) {
-      if (!startedMG2) {
-        delay(500);
-        startedMG2 = true;
-      }
-      miniGameTwo();
-    } else if (mg2_health <= 0) {
-      gameOver(1);
-    } else {
-      winGame(1, mg2_health);
+    miniGameOne();
+  } else if (_miniGameState == GAME_TWO && mg2_round <= 3 && mg2_health > 0) {
+    if (!startedMG2) {
+      delay(500);
+      startedMG2 = true;
     }
-  } else if (_miniGameState == GAME_THREE) {
-    if (mg3_round <= 3 && mg3_health > 0) {
-      if (!startedMG3) {
-        delay(500);
-        startedMG3 = true;
-      }
-      miniGameThree();
-    } else if (mg3_health <= 0) {
-      gameOver(2);
-    } else {
-      winGame(2, mg3_health);
+    miniGameTwo();
+  } else if (_miniGameState == GAME_THREE && mg3_round <= 3 && mg3_health > 0) {
+    if (!startedMG3) {
+      delay(500);
+      startedMG3 = true;
     }
+    miniGameThree();
   }
 }
 

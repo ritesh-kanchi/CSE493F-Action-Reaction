@@ -28,7 +28,7 @@ void miniGameOne() {
 
   if (mg1_xBall - mg1_ballRadius <= randomFieldX + mg1_fieldSize && mg1_xBall + mg1_ballRadius >= randomFieldX && mg1_yBall - mg1_ballRadius <= randomFieldY + mg1_fieldSize && mg1_yBall + mg1_ballRadius >= randomFieldY && mg1_buttonPressed) {
     mg1_buttonPressed = false;  // Reset button state
-    delay(1000);
+    vibrate(1000);
 
     mg1_round++;  // Increase round number if ball is inside the field and button is pressed
 
@@ -52,10 +52,12 @@ void miniGameOne() {
 
   if (mg1_xBall - mg1_ballRadius <= 0 || mg1_xBall + mg1_ballRadius >= display.width()) {
     mg1_xSpeed *= -1;
+    vibrate(10);
   }
 
   if (mg1_yBall - mg1_ballRadius <= 0 || mg1_yBall + mg1_ballRadius >= display.height()) {
     mg1_ySpeed *= -1;
+    vibrate(10);
   }
 
   display.fillCircle(mg1_xBall, mg1_yBall, mg1_ballRadius, WHITE);

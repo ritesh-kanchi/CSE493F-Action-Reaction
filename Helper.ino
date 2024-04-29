@@ -47,3 +47,9 @@ void drawStatus(int round, int health) {
   display.print(" | Health: ");
   display.println(health);
 }
+
+void vibrate(int ms) {
+  digitalWrite(VIBROMOTOR_OUTPUT_PIN, HIGH);
+  delay(ms);
+  digitalWrite(VIBROMOTOR_OUTPUT_PIN, LOW);
+}

@@ -1,4 +1,3 @@
-// #include <Shape.hpp>;
 #include <ParallaxJoystick.hpp>;
 
 #include <SPI.h>
@@ -68,8 +67,6 @@ const int centerHor = display.width() / 2;
 const int centerVer = display.height() / 2;
 
 void setup() {
-  Serial.begin(9600);
-
   pinMode(POT_INPUT_PIN, INPUT);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(JOYSTICK_BUTTON_PIN, INPUT_PULLUP);
@@ -78,6 +75,9 @@ void setup() {
   pinMode(BLUE_LED_PIN, OUTPUT);
   pinMode(GREEN_LED_PIN, OUTPUT);
   pinMode(YELLOW_LED_PIN, OUTPUT);
+
+  pinMode(TONE_OUTPUT_PIN, OUTPUT);
+  pinMode(VIBROMOTOR_OUTPUT_PIN, OUTPUT);
 
   initializeOledAndShowStartupScreen();
   randomSeed(analogRead(A0));

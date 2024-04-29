@@ -39,12 +39,11 @@ const unsigned char cat_right_bitmap[] PROGMEM = {
   0x60, 0x6c, 0x0c, 0x00
 };
 
-const unsigned char* cat_bitmaps[5] = {
+const unsigned char* cat_bitmaps[4] = {
   cat_right_bitmap,
   cat_down_bitmap,
   cat_left_bitmap,
   cat_up_bitmap,
-  cat_right_bitmap,
 };
 
 int mg3_round = 1;
@@ -81,7 +80,7 @@ void miniGameThree() {
   } else if (potValue < 800) {
     cat_direction = 3;
   } else {
-    cat_direction = 4;
+    cat_direction = 0;
   }
 
   if (potValue < 250) {

@@ -16,8 +16,10 @@ void gameSelectionLoop() {
   if (_joystickState != lastjoystickState) {  // Only update if there's a change in joystick state
     if (_joystickState == MOVING_RIGHT) {
       selectedGame = (selectedGame + 1) % 3;
+      vibrate(100);
     } else if (_joystickState == MOVING_LEFT) {
       selectedGame = (selectedGame - 1 + 3) % 3;  // Ensuring positive modulo
+      vibrate(100);
     }
     lastjoystickState = _joystickState;  // Update last joystick state
     // Serial.println(selectedGame);
@@ -49,7 +51,7 @@ void gameSelectionLoop() {
 
   display.setTextColor(WHITE);
 
-  delay(50);
+  // delay(50);
 }
 
 void drawGameRect(int num, bool selected, int y, char* STR_GAME_NAME) {
