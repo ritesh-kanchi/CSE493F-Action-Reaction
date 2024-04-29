@@ -31,15 +31,14 @@ int mg2_timer = 0;
 int randomThiefX = random(0, display.width() - thief_bitmap_sizes[mg2_round - 1][0]);
 int randomThiefY = random(10, display.height() - thief_bitmap_sizes[mg2_round - 1][1]);
 
+const int spotlightW = 16;       // Constant width
+const int spotlightMaxH = 12;    // Maximum height
+const int spotlightMinH = 6;     // Minimum height near the edges
+const int spotlightPadding = 2;  // Add some padding around the spotlight
+
 void miniGameTwo() {
   display.clearDisplay();
-
   drawStatus(mg2_round, mg2_health);
-
-  int spotlightW = 16;       // Constant width
-  int spotlightMaxH = 12;    // Maximum height
-  int spotlightMinH = 6;     // Minimum height near the edges
-  int spotlightPadding = 2;  // Add some padding around the spotlight
 
   // Map joystick position to spotlight position
   int xPos = map(analogRead(JOYSTICK_LEFTRIGHT_PIN), 0, 1023, spotlightW, display.width() - spotlightW);
@@ -55,15 +54,15 @@ void miniGameTwo() {
 
   display.display();
 
-  bool collision = checkCollision(xPos - spotlightPadding, yPos - spotlightPadding, spotlightW + 2 * spotlightPadding, spotlightH + 2 * spotlightPadding, randomThiefX, randomThiefY, thief_bitmap_sizes[mg2_round - 1][0], thief_bitmap_sizes[mg2_round - 1][1]);
-
+  bool collision = checkCollision(xPos - spotlightPadding, yPos - spotlightPadding, spotlightW, spotlightH, randomThiefX, randomThiefY, thief_bitmap_sizes[mg2_round - 1][0], thief_bitmap_sizes[mg2_round - 1][1]);
+  // display.drawRect(xPos - spotlightW, yPos -spotlightH, spotlightW*2, spotlightH*2, WHITE);
   // If collision occurs, handle it
   if (collision && mg2_buttonPressed) {
     // Handle collision, for example, decrement health or increase score
     // For now, let's just print a message
     mg2_buttonPressed = false;
     mg2_timer = 0;
-    delay(1000);
+    vibrate(1000);
 
     mg2_round++;
 
@@ -76,6 +75,8 @@ void miniGameTwo() {
   } else if (!collision && mg2_buttonPressed) {
     mg2_buttonPressed = false;
     mg2_health--;
+  } else if(collision && !mg2_buttonPressed) {
+    playTone(200,10);
   }
 
   int buttonVal = digitalRead(BUTTON_PIN);

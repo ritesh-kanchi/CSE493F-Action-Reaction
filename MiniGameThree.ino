@@ -39,11 +39,12 @@ const unsigned char cat_right_bitmap[] PROGMEM = {
   0x60, 0x6c, 0x0c, 0x00
 };
 
-const unsigned char* cat_bitmaps[4] = {
+const unsigned char* cat_bitmaps[5] = {
   cat_right_bitmap,
   cat_down_bitmap,
   cat_left_bitmap,
   cat_up_bitmap,
+  cat_right_bitmap,
 };
 
 int mg3_round = 1;
@@ -80,7 +81,7 @@ void miniGameThree() {
   } else if (potValue < 800) {
     cat_direction = 3;
   } else {
-    cat_direction = 0;
+    cat_direction = 4;
   }
 
   if (potValue < 250) {
@@ -124,13 +125,13 @@ void miniGameThree() {
   if (mg3_buttonPressed && mg3_lights_on[currentAimedColor] && !mg3_lights_caught[currentAimedColor]) {
     mg3_lights_caught[currentAimedColor] = true;
     mg3_buttonPressed = false;
-    delay(200);
+    playTone(1000, 200);
     // Serial.println("ENTERED!");
     digitalWrite(mg3_lights[currentAimedColor], 0);
-
+    
 
     if (mg3_all_lights_caught() == 4) {
-      delay(1000);
+      vibrate(1000);
       mg3_round++;
 
       if (mg3_round <= 3) {
@@ -142,6 +143,8 @@ void miniGameThree() {
   } else if (mg3_buttonPressed && !mg3_lights_on[currentAimedColor]) {
     mg3_buttonPressed = false;
     mg3_health--;
+  } else if (!mg3_buttonPressed && !mg3_lights_caught[currentAimedColor] && mg3_lights_on[currentAimedColor]) {
+    playTone(200, 10);
   }
 
   if (digitalRead(BUTTON_PIN) == LOW) {

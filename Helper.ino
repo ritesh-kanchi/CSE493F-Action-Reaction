@@ -53,3 +53,9 @@ void vibrate(int ms) {
   delay(ms);
   digitalWrite(VIBROMOTOR_OUTPUT_PIN, LOW);
 }
+
+void playTone(int freq, int ms) {
+   tone(TONE_OUTPUT_PIN, freq); 
+   delay(ms);
+   noTone(TONE_OUTPUT_PIN);
+}
