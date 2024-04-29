@@ -24,7 +24,7 @@ void gameSelectionLoop() {
   }
 
   int buttonVal = digitalRead(BUTTON_PIN);
-  if (buttonVal == LOW) { // Assuming LOW means the button is pressed
+  if (buttonVal == LOW && gameSelected) { // Assuming LOW means the button is pressed
     // Do something with the selected game
     miniGameIndex = selectedGame;
     if(selectedGame == 0) {
@@ -35,6 +35,8 @@ void gameSelectionLoop() {
       _miniGameState = GAME_THREE;
     }
   }
+
+  gameSelected = true;
 
   display.clearDisplay();
   drawTitle("Choose a game!");

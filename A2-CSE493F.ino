@@ -17,6 +17,7 @@ const int POT_INPUT_PIN = A1;
 
 const int JOYSTICK_UPDOWN_PIN = A4;
 const int JOYSTICK_LEFTRIGHT_PIN = A5;
+const int JOYSTICK_BUTTON_PIN = 7;
 const int MAX_ANALOG_VAL = 1023;
 const enum JoystickYDirection JOYSTICK_Y_DIR = RIGHT;
 
@@ -51,27 +52,33 @@ JoystickState _joystickState = NO_MOVEMENT;
 MiniGameState _miniGameState = NO_GAME;
 int miniGameIndex = -1;
 
+bool gameSelected = false;
+
 const int DELAY_LOOP_MS = 5;
 
-int PLAYER_HEALTH = 3;
+const char* GAMES[] = {"Game 1", "Game 2", "Game 3"};
+const char* GAME_INSTRUCTIONS[] = {"Press the BUTTON\n   to the catch ball.","Joystick","Spinner"};
 
-const char STR_GAME_ONE[] = "Game 1";
-const char STR_GAME_TWO[] = "Game 2";
-const char STR_GAME_THREE[] = "Game 3";
-
-const char* GAMES[] = {STR_GAME_ONE, STR_GAME_TWO, STR_GAME_THREE};
+const int centerHor = display.width()/2;
+const int centerVer = display.height()/2;
 
 void setup() {
   Serial.begin(9600);
 
   pinMode(POT_INPUT_PIN, INPUT);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
+  pinMode(JOYSTICK_BUTTON_PIN, INPUT_PULLUP);
 
   initializeOledAndShowStartupScreen();
+  randomSeed(analogRead(A0));
 }
 
 void loop() {
   display.clearDisplay();
+
+  if(digitalRead(JOYSTICK_BUTTON_PIN) == LOW) {
+    reset();
+  }
 
   if(_gameState == NEW_GAME || _gameState == GAME_OVER) {
     nonGamePlayLoop();
@@ -85,32 +92,5 @@ void loop() {
 
   if (DELAY_LOOP_MS > 0) {
     delay(DELAY_LOOP_MS);
-  }
-}
-
-void nonGamePlayLoop() {
-
-  const char STR_PRESS_BUTTON_TO_PLAY[] = "Press button to play";
-
-  int buttonVal = digitalRead(BUTTON_PIN);
-  int16_t x1, y1;
-  uint16_t w, h;
-
-  Serial.println(buttonVal);
-
-  if(_gameState == NEW_GAME) {
-    display.clearDisplay();
-
-    display.getTextBounds(STR_PRESS_BUTTON_TO_PLAY, 0, 0, &x1, &y1, &w, &h);
-    display.setCursor(display.width() / 2 - w / 2, 40);
-    display.print(STR_PRESS_BUTTON_TO_PLAY);
-    display.display();
-
-    if(buttonVal == LOW) {
-      _gameState = PLAYING;
-    }
-
-  } else if (_gameState == GAME_OVER) {
-    Serial.println("Game over!");
   }
 }
