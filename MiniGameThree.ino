@@ -189,6 +189,7 @@ void mg3_reset_lights_caught() {
   for (int i = 0; i < 4; ++i) {
     mg3_lights_caught[i] = false;
     mg3_lights_on[i] = false;
+    digitalWrite(mg3_lights[i], LOW);
   }
 }
 
