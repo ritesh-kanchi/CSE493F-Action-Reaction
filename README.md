@@ -1,7 +1,7 @@
 # CSE493F Action Reaction
  
 ```
-Sketch uses 28664 bytes (99%) of program storage space. Maximum is 28672 bytes.
+Sketch uses 28672 bytes (100%) of program storage space. Maximum is 28672 bytes.
 Global variables use 929 bytes (36%) of dynamic memory, leaving 1631 bytes for local variables. Maximum is 2560 bytes.
 ```
 
